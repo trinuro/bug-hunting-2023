@@ -5,7 +5,7 @@ __copyright__ = "Copyright (C) 2021 The University of Manchester"
 from unittest import TestCase
 from nose.tools import assert_equals, assert_in, assert_raises
 
-from simploku import SimplokuPuzzle, SolutionNotFoundError
+from simploku import SimplokuPuzzle, SolutionNotFoundError, InvalidPuzzleError
 
 
 def check_contains_exactly(actual_contents, expected_contents):
@@ -26,6 +26,11 @@ def assert_no_solution_exists(puzzle):
     puzzle = SimplokuPuzzle(puzzle)
     with assert_raises(SolutionNotFoundError):
         puzzle.solution()
+
+
+def assert_puzzle_is_invalid(puzzle):
+    with assert_raises(InvalidPuzzleError):
+        puzzle = SimplokuPuzzle(puzzle)
 
 
 class SimplokuTest(TestCase):
@@ -162,7 +167,11 @@ class SimplokuTest(TestCase):
                                    [None, None, 2],
                                    [1,    None, None]])
 
-    def should_reject_an_invalid_puzzle(self):
+    def should_reject_a_rectangular_puzzle(self):
+        assert_puzzle_is_invalid([[None, 2,    3,    4],
+                                  [2,    None, None, None]])
+
+    def should_reject_an_impossible_puzzle(self):
         assert_no_solution_exists([[None, 3,    3],
                                    [None, None, None],
                                    [None, None, None]])

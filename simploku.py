@@ -10,14 +10,24 @@ class SolutionNotFoundError(Exception):
     pass
 
 
+class InvalidPuzzleError(Exception):
+    """Exception raised when an input puzzle is invalid."""
+    pass
+
 
 class SimplokuPuzzle(object):
     """A simple Sudoku-style puzzle representation and solver."""
     input_puzzle = []
 
     def __init__(self, puzzle_to_solve):
+        # Check puzzle is valid
+        puzzle_width = len(puzzle_to_solve[0])
+        puzzle_height = len(puzzle_to_solve)
+        if puzzle_width != puzzle_height:
+            raise InvalidPuzzleError()
+
         self.input_puzzle = puzzle_to_solve
-        self.puzzle_size = len(self.input_puzzle)
+        self.puzzle_size = puzzle_width
         self.rows = list(range(0, self.puzzle_size))
         self.columns = self.rows
 
