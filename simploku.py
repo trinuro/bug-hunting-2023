@@ -62,7 +62,7 @@ class SimplokuPuzzle(object):
         # Otherwise, the empty cells all have more than one candidate value.  We just have to try these values
         # in turn until we find one that works.  If none of them work then the puzzle is unsolvable.
         # We know there will always be at least one such place if we reach this point (unless there is a bug in the code).
-        places_to_solve_next = [place for place in empty_places if len(candidate_values[place]) < 1]
+        places_to_solve_next = [place for place in empty_places if len(candidate_values[place]) > 1]
         if len(places_to_solve_next) > 0:
             # Try placing each candidate value in turn and then solving the resulting problem.
             (row, col) = places_to_solve_next[0]
